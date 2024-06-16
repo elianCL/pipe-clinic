@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using PipeClinic.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicionar serviços necessários
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -15,21 +19,17 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    // Habilitar o Swagger UI
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "PipeClinic API v1");
-        c.RoutePrefix = ""; // Define a rota raiz para o Swagger UI
+        c.RoutePrefix = ""; 
     });
 }
 
-
-// Redirecionamento HTTPS e Autorização
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-// Mapeamento dos Controllers
 app.MapControllers();
 
 app.Run();
