@@ -1,112 +1,95 @@
-// PipeClinic/Controllers/PacientesController.cs
+// PipeClinic\Controllers\PacientesController.cs
+
 using Microsoft.AspNetCore.Mvc;
-using System;
+using PipeClinic.Models;
+using PipeClinic.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-[ApiController]
-[Route("api/v1/pacientes")]
-public class PacientesController : ControllerBase
+namespace PipeClinic.Controllers
 {
-    private static List<Paciente> pacientes = new List<Paciente>();
-
-    // GET /api/v1/pacientes/all
-    [HttpGet("all")]
-    public ActionResult<IEnumerable<Paciente>> GetAllPacientes()
+    [ApiController]
+    [Route("api/v1/pacientes")]
+    public class PacientesController : ControllerBase
     {
-        return Ok(pacientes);
-    }
+        private readonly IPacienteService _pacienteService;
 
-    // GET /api/v1/pacientes/{id}
-    [HttpGet("{id}")]
-    public ActionResult<Paciente> GetPaciente(int id)
-    {
-        var paciente = pacientes.Find(p => p.Id == id);
-        if (paciente == null)
-            return NotFound();
-        return Ok(paciente);
-    }
+        public PacientesController(IPacienteService pacienteService)
+        {
+            _pacienteService = pacienteService;
+        }
 
-    // POST /api/v1/pacientes
-    [HttpPost]
-    public ActionResult<Paciente> AddPaciente(Paciente paciente)
-    {
-        paciente.Id = pacientes.Count + 1;
-        pacientes.Add(paciente);
-        return CreatedAtAction(nameof(GetPaciente), new { id = paciente.Id }, paciente);
-    }
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<Paciente>>> GetAllPacientes()
+        {
+            var pacientes = await _pacienteService.GetAllPacientesAsync();
+            return Ok(pacientes);
+        }
 
-    // PUT /api/v1/pacientes/{id}
-    [HttpPut("{id}")]
-    public IActionResult UpdatePaciente(int id, Paciente pacienteAtualizado)
-    {
-        var paciente = pacientes.Find(p => p.Id == id);
-        if (paciente == null)
-            return NotFound();
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Paciente>> GetPaciente(int id)
+        {
+            var paciente = await _pacienteService.GetPacienteByIdAsync(id);
+            if (paciente == null)
+                return NotFound();
+            return Ok(paciente);
+        }
 
-        paciente.Nome = pacienteAtualizado.Nome;
-        paciente.Sobrenome = pacienteAtualizado.Sobrenome;
-        paciente.Sexo = pacienteAtualizado.Sexo;
-        paciente.Nascimento = pacienteAtualizado.Nascimento;
-        paciente.Altura = pacienteAtualizado.Altura;
-        paciente.Peso = pacienteAtualizado.Peso;
-        paciente.Cpf = pacienteAtualizado.Cpf;
+        [HttpPost]
+        public async Task<ActionResult<Paciente>> AddPaciente(Paciente paciente)
+        {
+            var novoPaciente = await _pacienteService.AddPacienteAsync(paciente);
+            return CreatedAtAction(nameof(GetPaciente), new { id = novoPaciente.Id }, novoPaciente);
+        }
 
-        return NoContent();
-    }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePaciente(int id, Paciente pacienteAtualizado)
+        {
+            await _pacienteService.UpdatePacienteAsync(id, pacienteAtualizado);
+            return NoContent();
+        }
 
-    // DELETE /api/v1/pacientes/{id}
-    [HttpDelete("{id}")]
-    public IActionResult DeletePaciente(int id)
-    {
-        var paciente = pacientes.Find(p => p.Id == id);
-        if (paciente == null)
-            return NotFound();
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePaciente(int id)
+        {
+            await _pacienteService.DeletePacienteAsync(id);
+            return NoContent();
+        }
 
-        pacientes.Remove(paciente);
-        return NoContent();
-    }
+        [HttpGet("{id}/pesoideal")]
+        public async Task<ActionResult<double>> ObterPesoIdeal(int id)
+        {
+            var pesoIdeal = await _pacienteService.ObterPesoIdealAsync(id);
+            if (pesoIdeal == null)
+                return NotFound();
+            return Ok(pesoIdeal);
+        }
 
-    // GET /api/v1/pacientes/{id}/pesoideal
-    [HttpGet("{id}/pesoideal")]
-    public ActionResult<double> ObterPesoIdeal(int id)
-    {
-        var paciente = pacientes.Find(p => p.Id == id);
-        if (paciente == null)
-            return NotFound();
+        [HttpGet("{id}/situacaoimc")]
+        public async Task<ActionResult<string>> ObterSituacaoIMC(int id)
+        {
+            var situacaoIMC = await _pacienteService.ObterSituacaoIMCAsync(id);
+            if (situacaoIMC == null)
+                return NotFound();
+            return Ok(situacaoIMC);
+        }
 
-        return Ok(paciente.ObterPesoIdeal());
-    }
+        [HttpGet("{id}/cpfofuscado")]
+        public async Task<ActionResult<string>> ObterCpfOfuscado(int id)
+        {
+            var cpfOfuscado = await _pacienteService.ObterCpfOfuscadoAsync(id);
+            if (cpfOfuscado == null)
+                return NotFound();
+            return Ok(cpfOfuscado);
+        }
 
-    // GET /api/v1/pacientes/{id}/situacaoimc
-    [HttpGet("{id}/situacaoimc")]
-    public ActionResult<string> ObterSituacaoIMC(int id)
-    {
-        var paciente = pacientes.Find(p => p.Id == id);
-        if (paciente == null)
-            return NotFound();
-
-        return Ok(paciente.ObterSituacaoIMC());
-    }
-
-    // GET /api/v1/pacientes/{id}/cpf
-    [HttpGet("{id}/cpf")]
-    public ActionResult<string> ObterCpfOfuscado(int id)
-    {
-        var paciente = pacientes.Find(p => p.Id == id);
-        if (paciente == null)
-            return NotFound();
-
-        return Ok(paciente.ObterCpfOfuscado());
-    }
-
-    // POST /api/v1/pacientes/{id}/validarcpf
-    [HttpPost("{id}/validarcpf")]
-    public ActionResult<bool> ValidarCpf(int id)
-    {
-        var paciente = pacientes.Find(p => p.Id == id);
-        if (paciente == null)
-            return NotFound();
-
-        return Ok(paciente.ValidarCpf());
+        [HttpPost("{id}/validarcpf")]
+        public async Task<ActionResult<bool>> ValidarCpf(int id)
+        {
+            var isValido = await _pacienteService.ValidarCpfAsync(id);
+            if (!isValido)
+                return NotFound();
+            return Ok(isValido);
+        }
     }
 }
