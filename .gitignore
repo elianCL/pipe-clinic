@@ -1,0 +1,64 @@
+# Ignore build outputs
+[Pp]ipe[Cc]linic/bin/
+[Pp]ipe[Cc]linic/obj/
+[Pp]ipe[Cc]linic.Tests/bin/
+[Pp]ipe[Cc]linic.Tests/obj/
+
+# Ignore user-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Ignore Rider project files
+.idea/
+*.sln.iml
+
+# Ignore Visual Studio Code files
+.vscode/
+
+# Ignore MacOS system files
+.DS_Store
+
+# Ignore logs
+*.log
+
+# Ignore coverage files
+coverage/
+*.coverage
+*.coveragexml
+
+# Ignore npm package files
+node_modules/
+
+# Ignore by JetBrains Rider
+.idea/
+*.sln.iml
+
+# Ignore directories with NuGet packages
+[Pp]ipe[Cc]linic/obj/
+[Pp]ipe[Cc]linic.Tests/obj/
+[Pp]ipe[Cc]linic/obj/
+[Pp]ipe[Cc]linic.Tests/obj/
+
+# Ignore Rider settings
+.idea/
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore project-specific settings
+[Pp]ipe[Cc]linic/*.json
+!/[Pp]ipe[Cc]linic/appsettings.json
+!/[Pp]ipe[Cc]linic/appsettings.Development.json
+
+# Allow launchSettings.json
+!/[Pp]ipe[Cc]linic/Properties/launchSettings.json
+
+# Ignore compiled output files
+*.dll
+*.pdb
+*.exe
+
+# Ignore NuGet packages
+*.nupkg
