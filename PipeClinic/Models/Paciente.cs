@@ -1,4 +1,3 @@
-// PipeClinic/Models/Paciente.cs
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,10 +16,8 @@ namespace PipeClinic.Models
         public double Peso { get; set; }
         public string Cpf { get; set; } = string.Empty;
 
-        // Construtor padrão vazio (necessário para Entity Framework)
         public Paciente() { }
-
-        // Métodos para cálculos
+        
         public double ObterPesoIdeal()
         {
             if (Sexo == 'M')

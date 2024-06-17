@@ -13,7 +13,7 @@ namespace PipeClinic.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Data Source=pipeclinic.db"); // Substitua pelo seu caminho de banco de dados SQLite
+                optionsBuilder.UseSqlite("Data Source=pipeclinic.db"); 
             }
         }
     }

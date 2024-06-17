@@ -1,16 +1,13 @@
 task executeDotNetCommands() {
     doLast {
-        // Execute Gradle clean build
         exec {
-            commandLine './gradle'  // ou 'gradle' se estiver usando o Gradle globalmente
+            commandLine './gradle'  
             args 'clean', 'build'
         }
         
-        // Verifica o código de saída do processo Gradle
         if (execResult.exitValue == 0) {
             println "Gradle build completed successfully."
             
-            // Execute os comandos .NET Core
             exec {
                 workingDir 'dotnet/PipeClinic'
                 commandLine 'dotnet', 'clean'
