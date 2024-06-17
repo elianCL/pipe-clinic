@@ -62,3 +62,9 @@ node_modules/
 
 # Ignore NuGet packages
 *.nupkg
+
+# Gradle specific ignores
+.gradle/
+build/
+gradle
+gradl*

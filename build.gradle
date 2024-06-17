@@ -1,0 +1,38 @@
+task executeDotNetCommands() {
+    doLast {
+        // Execute Gradle clean build
+        exec {
+            commandLine './gradle'  // ou 'gradle' se estiver usando o Gradle globalmente
+            args 'clean', 'build'
+        }
+        
+        // Verifica o código de saída do processo Gradle
+        if (execResult.exitValue == 0) {
+            println "Gradle build completed successfully."
+            
+            // Execute os comandos .NET Core
+            exec {
+                workingDir 'dotnet/PipeClinic'
+                commandLine 'dotnet', 'clean'
+            }
+            
+            exec {
+                workingDir 'dotnet/PipeClinic'
+                commandLine 'dotnet', 'restore'
+            }
+            
+            exec {
+                workingDir 'dotnet/PipeClinic'
+                commandLine 'dotnet', 'build'
+            }
+            
+            exec {
+                workingDir 'dotnet/PipeClinic.Tests'
+                commandLine 'dotnet', 'test'
+            }
+        } else {
+            println "Error during Gradle build. Skipping dotnet commands."
+            throw new GradleException("Gradle build failed")
+        }
+    }
+}

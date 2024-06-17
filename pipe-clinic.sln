@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PipeClinic.Tests", "PipeClinic.Tests\PipeClinic.Tests.csproj", "{88A4ECC0-3BBC-441C-8B71-655E81ADEAD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PipeClinic", "PipeClinic\PipeClinic.csproj", "{547B5194-91E9-41CF-AA8A-67B2570F95A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88A4ECC0-3BBC-441C-8B71-655E81ADEAD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88A4ECC0-3BBC-441C-8B71-655E81ADEAD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88A4ECC0-3BBC-441C-8B71-655E81ADEAD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88A4ECC0-3BBC-441C-8B71-655E81ADEAD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{547B5194-91E9-41CF-AA8A-67B2570F95A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{547B5194-91E9-41CF-AA8A-67B2570F95A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{547B5194-91E9-41CF-AA8A-67B2570F95A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{547B5194-91E9-41CF-AA8A-67B2570F95A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F95BAE3F-7FF8-4D60-ADB3-E4BE369A2F59}
+	EndGlobalSection
+EndGlobal
